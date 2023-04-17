@@ -2773,11 +2773,13 @@ void loop()
       case MODE_DATE:
         writeScreenBuffer(matrix, YELLOW, brightness);
         break;
+#ifdef SHOW_MODE_MOONPHASE
       case MODE_MOONPHASE:
         writeScreenBufferFade(matrixOld, matrix, ORANGE, brightness);
         //      writeScreenBuffer(matrix, ORANGE, brightness);
         break;
 
+#endif
 #ifdef SHOW_MODE_TEST
       case MODE_TEST:
 #ifdef DEBUG
@@ -3911,6 +3913,7 @@ void writeScreenBufferFade(uint16_t screenBufferOld[], uint16_t screenBufferNew[
 #endif
 #endif
     handle_Webserver(__LINE__);
+#ifdef SHOW_MODE_MOONPHASE
     if ( mode == MODE_MOONPHASE )
     {
       delay(int((900 - brightness * 3) / brightness ));
@@ -3919,6 +3922,9 @@ void writeScreenBufferFade(uint16_t screenBufferOld[], uint16_t screenBufferNew[
     {
       delay(int((12 * TRANSITION_SPEED + 350 - brightness * 2) / brightness));
     }
+#else
+    delay(int((12 * TRANSITION_SPEED + 350 - brightness * 2) / brightness));
+#endif
     ledDriver.show();
   }
   transitionInProgress = false;
