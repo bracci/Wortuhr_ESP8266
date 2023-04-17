@@ -89,7 +89,6 @@
 #include <Wire.h>
 #include <SPI.h>
 #include <Adafruit_Sensor.h>
-#include <Adafruit_BME280.h>
 
 #include <ESP8266HTTPUpdateServer.h>
 #include <ESP8266mDNS.h>
@@ -116,6 +115,10 @@
 //RTC_BACKUP
 #ifdef RTC_BACKUP
 #include <DS3232RTC.h>
+#endif
+
+#ifdef SENSOR_BME280
+#include <Adafruit_BME280.h>
 #endif
 
 //SENSOR_MCP9808
