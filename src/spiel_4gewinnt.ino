@@ -260,10 +260,10 @@ void abMinimax(int maximizeOrMinimize, int8_t spieler, uint8_t depth, int8_t boa
     
       if (depth == g_maxLDepth && !B_wirfStein )
       {
-        if ( column % 4 == 0 ) ledDriver.setPixel(110,RED,abcBrightness); else ledDriver.setPixel(110,RED,0);
-        if ( column % 4 == 1 ) ledDriver.setPixel(111,RED,abcBrightness); else ledDriver.setPixel(111,RED,0);
-        if ( column % 4 == 2 ) ledDriver.setPixel(112,RED,abcBrightness); else ledDriver.setPixel(112,RED,0);
-        if ( column % 4 == 3 ) ledDriver.setPixel(113,RED,abcBrightness); else ledDriver.setPixel(113,RED,0);
+        if ( column % 4 == 0 ) ledDriver.setPixel(110,RED,brightness); else ledDriver.setPixel(110,RED,0);
+        if ( column % 4 == 1 ) ledDriver.setPixel(111,RED,brightness); else ledDriver.setPixel(111,RED,0);
+        if ( column % 4 == 2 ) ledDriver.setPixel(112,RED,brightness); else ledDriver.setPixel(112,RED,0);
+        if ( column % 4 == 3 ) ledDriver.setPixel(113,RED,brightness); else ledDriver.setPixel(113,RED,0);
         ledDriver.show(); 
         delay(0);     
       }
@@ -427,8 +427,8 @@ int8_t freieSpalteWahl(int8_t pos, bool lr, int8_t spieler)
       }
     }
   }
-  if ( spieler == SPIELER_A ) ledDriver.setPixel(retval+1,0,RED,abcBrightness);
-  if ( spieler == SPIELER_B ) ledDriver.setPixel(retval+1,0,YELLOW,abcBrightness);  
+  if ( spieler == SPIELER_A ) ledDriver.setPixel(retval+1,0,RED,brightness);
+  if ( spieler == SPIELER_B ) ledDriver.setPixel(retval+1,0,YELLOW,brightness);  
   ledDriver.show();
   return retval;
 }
@@ -444,10 +444,10 @@ bool wirfStein(int8_t &posx, int8_t w_spieler)
   if ( g_4g_posy <= g_4g_posymax )
   {
     if ( g_4g_posy == 0 ) ledDriver.setPixelRGB(posx+1,g_4g_posy,0,0,0);
-    else ledDriver.setPixel(posx+1,g_4g_posy,BLUE,abcBrightness/5);
+    else ledDriver.setPixel(posx+1,g_4g_posy,BLUE,brightness/5);
     g_4g_posy++;
-    if ( w_spieler == SPIELER_A ) ledDriver.setPixel(posx+1,g_4g_posy,RED,abcBrightness);
-    if ( w_spieler == SPIELER_B ) ledDriver.setPixel(posx+1,g_4g_posy,YELLOW,abcBrightness);
+    if ( w_spieler == SPIELER_A ) ledDriver.setPixel(posx+1,g_4g_posy,RED,brightness);
+    if ( w_spieler == SPIELER_B ) ledDriver.setPixel(posx+1,g_4g_posy,YELLOW,brightness);
     ledDriver.show(); 
     delay(10);
     webServer.handleClient();
@@ -514,7 +514,7 @@ void markiereGewinnSteine()
         pruefx = gewinnstartsteine[g].x + pruefrichtung[gewinnstartsteine[g].r][i][0];
         pruefy = gewinnstartsteine[g].y + pruefrichtung[gewinnstartsteine[g].r][i][1];
         if ( bl%2 == 0 ) ledDriver.setPixel(pruefx+1,pruefy+1,gewinnerfarbe,10);
-        else ledDriver.setPixel(pruefx+1,pruefy+1,gewinnerfarbe,abcBrightness);
+        else ledDriver.setPixel(pruefx+1,pruefy+1,gewinnerfarbe,brightness);
       }
     }
     ledDriver.show();
@@ -544,7 +544,7 @@ void ShowBoard()
   {
     for(uint8_t y=1;y<FIELD_HEIGHT;y++)
     {
-      ledDriver.setPixel(x,y,rahmen,abcBrightness/4);
+      ledDriver.setPixel(x,y,rahmen,brightness/4);
     }
   }
   
@@ -552,11 +552,11 @@ void ShowBoard()
   for (uint8_t i = 0; i < VG_HEIGHT ; i++){
     for (uint8_t j = 0; j < VG_WIDTH ; j++){
       if (board[i][j] == LEERES_FELD)
-      ledDriver.setPixel(j+1,i+1,BLUE,abcBrightness/5);
+      ledDriver.setPixel(j+1,i+1,BLUE,brightness/5);
       if (board[i][j] == SPIELER_A)
-      ledDriver.setPixel(j+1,i+1,RED,abcBrightness);
+      ledDriver.setPixel(j+1,i+1,RED,brightness);
       if (board[i][j] == SPIELER_B)
-      ledDriver.setPixel(j+1,i+1,YELLOW,abcBrightness);
+      ledDriver.setPixel(j+1,i+1,YELLOW,brightness);
     }
   }  
   ledDriver.show();

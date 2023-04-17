@@ -147,9 +147,9 @@ void printField(){
         }
       }
       if (field.pix[x][y] == 1){
-       ledDriver.setPixel(x,y,field.color[x][y],abcBrightness);
+       ledDriver.setPixel(x,y,field.color[x][y],brightness);
       } else if (activeBrickPix == 1){
-          ledDriver.setPixel(x,y,activeBrick.color,abcBrightness);
+          ledDriver.setPixel(x,y,activeBrick.color,brightness);
       } else {
          ledDriver.setPixel(x,y,RED,0);  // Pixel löschen!
       }
@@ -157,45 +157,45 @@ void printField(){
   }
   switch (nextbrick) {
     case 0:
-      ledDriver.setPixel(110,BLUE,abcBrightness);
-      ledDriver.setPixel(111,BLUE,abcBrightness);
-      ledDriver.setPixel(112,BLUE,abcBrightness);
-      ledDriver.setPixel(113,BLUE,abcBrightness);
+      ledDriver.setPixel(110,BLUE,brightness);
+      ledDriver.setPixel(111,BLUE,brightness);
+      ledDriver.setPixel(112,BLUE,brightness);
+      ledDriver.setPixel(113,BLUE,brightness);
     break;
     case 1:
       ledDriver.setPixel(110,RED,0);
       ledDriver.setPixel(111,RED,0);
-      ledDriver.setPixel(112,RED,abcBrightness);
-      ledDriver.setPixel(113,RED,abcBrightness);
+      ledDriver.setPixel(112,RED,brightness);
+      ledDriver.setPixel(113,RED,brightness);
     break;
     case 2:
-      ledDriver.setPixel(110,YELLOW,abcBrightness);
+      ledDriver.setPixel(110,YELLOW,brightness);
       ledDriver.setPixel(111,YELLOW,0);
-      ledDriver.setPixel(112,YELLOW,abcBrightness);
-      ledDriver.setPixel(113,YELLOW,abcBrightness);
+      ledDriver.setPixel(112,YELLOW,brightness);
+      ledDriver.setPixel(113,YELLOW,brightness);
     break;
     case 3:
       ledDriver.setPixel(110,MAGENTA,0);
-      ledDriver.setPixel(111,MAGENTA,abcBrightness);
-      ledDriver.setPixel(112,MAGENTA,abcBrightness);
-      ledDriver.setPixel(113,MAGENTA,abcBrightness);
+      ledDriver.setPixel(111,MAGENTA,brightness);
+      ledDriver.setPixel(112,MAGENTA,brightness);
+      ledDriver.setPixel(113,MAGENTA,brightness);
     break;
     case 4:
-      ledDriver.setPixel(110,GREEN,abcBrightness);
+      ledDriver.setPixel(110,GREEN,brightness);
       ledDriver.setPixel(111,GREEN,0);
       ledDriver.setPixel(112,GREEN,0);
-      ledDriver.setPixel(113,GREEN,abcBrightness);
+      ledDriver.setPixel(113,GREEN,brightness);
     break;
     case 5:
       ledDriver.setPixel(110,ORANGE,0);
-      ledDriver.setPixel(111,ORANGE,abcBrightness);
+      ledDriver.setPixel(111,ORANGE,brightness);
       ledDriver.setPixel(112,ORANGE,0);
-      ledDriver.setPixel(113,ORANGE,abcBrightness);
+      ledDriver.setPixel(113,ORANGE,brightness);
     break;
     case 6:
-      ledDriver.setPixel(110,CYAN,abcBrightness);
+      ledDriver.setPixel(110,CYAN,brightness);
       ledDriver.setPixel(111,CYAN,0);
-      ledDriver.setPixel(112,CYAN,abcBrightness);
+      ledDriver.setPixel(112,CYAN,brightness);
       ledDriver.setPixel(113,CYAN,0);
     break;
   }

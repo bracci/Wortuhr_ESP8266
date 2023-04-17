@@ -130,7 +130,7 @@ void runSnake(){
     ledDriver.clear();
 
     //Zeichne Apfel
-    ledDriver.setPixel(ax,ay,acolor,abcBrightness);
+    ledDriver.setPixel(ax,ay,acolor,brightness);
 
     //Zeichne Schlange
     for (int i=0; i<curLength; i++){
@@ -141,9 +141,9 @@ void runSnake(){
       }
       if ( i > 2 && i%3 == 0 ) 
       {
-        ledDriver.setPixelRGB(xs[i], ys[i], i*abcBrightness/curLength/2,i*abcBrightness/curLength/2,abcBrightness);
+        ledDriver.setPixelRGB(xs[i], ys[i], i*brightness/curLength/2,i*brightness/curLength/2,brightness);
       }
-      else ledDriver.setPixelRGB(xs[i], ys[i], i*abcBrightness/curLength/2,abcBrightness,i*abcBrightness/curLength/2);
+      else ledDriver.setPixelRGB(xs[i], ys[i], i*brightness/curLength/2,brightness,i*brightness/curLength/2);
     }
 #ifdef DEBUG_GAME
     Serial.printf("Snake: x: %i , y: %i\n",xs[0],ys[0]);

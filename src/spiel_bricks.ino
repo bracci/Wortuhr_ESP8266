@@ -61,7 +61,7 @@ void runBricks(){
     {
       for(uint8_t i = AktBall ;i <= 4; i++)
       {
-        ledDriver.setPixel(109+i,YELLOW,abcBrightness);
+        ledDriver.setPixel(109+i,YELLOW,brightness);
       }
     }
     else
@@ -75,22 +75,22 @@ void runBricks(){
     
     // zeichne Ball
     if ( ballX >= 0 && ballX < FIELD_WIDTH && ballY>=0 && ballY < FIELD_HEIGHT )
-      ledDriver.setPixel(ballX,ballY,WHITE,abcBrightness);
+      ledDriver.setPixel(ballX,ballY,WHITE,brightness);
 
 
     // zeichne Schläger
     if ( hitPlayerC ) 
     {
       hitPlayerC = false;
-      ledDriver.setPixel(positionPlayer-1, FIELD_HEIGHT-1,ORANGE,abcBrightness);
-      ledDriver.setPixel(positionPlayer, FIELD_HEIGHT-1,ORANGE,abcBrightness);
-      ledDriver.setPixel(positionPlayer+1, FIELD_HEIGHT-1,ORANGE,abcBrightness);
+      ledDriver.setPixel(positionPlayer-1, FIELD_HEIGHT-1,ORANGE,brightness);
+      ledDriver.setPixel(positionPlayer, FIELD_HEIGHT-1,ORANGE,brightness);
+      ledDriver.setPixel(positionPlayer+1, FIELD_HEIGHT-1,ORANGE,brightness);
     }
     else
     {
-      ledDriver.setPixel(positionPlayer-1, FIELD_HEIGHT-1,YELLOW,abcBrightness);
-      ledDriver.setPixel(positionPlayer, FIELD_HEIGHT-1,YELLOW,abcBrightness);
-      ledDriver.setPixel(positionPlayer+1, FIELD_HEIGHT-1,YELLOW,abcBrightness);
+      ledDriver.setPixel(positionPlayer-1, FIELD_HEIGHT-1,YELLOW,brightness);
+      ledDriver.setPixel(positionPlayer, FIELD_HEIGHT-1,YELLOW,brightness);
+      ledDriver.setPixel(positionPlayer+1, FIELD_HEIGHT-1,YELLOW,brightness);
     }
     
 #ifdef DEBUG_GAME
@@ -103,7 +103,7 @@ void runBricks(){
       {
         if(bricksmatrix[blockX][blockY] == 1)
         {
-          ledDriver.setPixel(blockX,blockY,Stage,abcBrightness);
+          ledDriver.setPixel(blockX,blockY,Stage,brightness);
         }
       }
     }
@@ -607,13 +607,13 @@ void newBalltoPlayer()
     {
       ledDriver.setPixel(X,FIELD_HEIGHT-1,WHITE,0);
     }
-    ledDriver.setPixel(positionPlayer-1, FIELD_HEIGHT-1,YELLOW,abcBrightness);
-    ledDriver.setPixel(positionPlayer, FIELD_HEIGHT-1,YELLOW,abcBrightness);
-    ledDriver.setPixel(positionPlayer+1, FIELD_HEIGHT-1,YELLOW,abcBrightness);
-    for ( uint8_t b = 0; b <= abcBrightness; b++)
+    ledDriver.setPixel(positionPlayer-1, FIELD_HEIGHT-1,YELLOW,brightness);
+    ledDriver.setPixel(positionPlayer, FIELD_HEIGHT-1,YELLOW,brightness);
+    ledDriver.setPixel(positionPlayer+1, FIELD_HEIGHT-1,YELLOW,brightness);
+    for ( uint8_t b = 0; b <= brightness; b++)
     {
       ledDriver.setPixel(positionPlayer,FIELD_HEIGHT-2,WHITE,b);
-      if ( AktBall > 1 && AktBall <= 5) ledDriver.setPixel(108+AktBall,YELLOW,abcBrightness-b);
+      if ( AktBall > 1 && AktBall <= 5) ledDriver.setPixel(108+AktBall,YELLOW,brightness-b);
       ledDriver.show();
       delay (10);
     }
@@ -640,7 +640,7 @@ void newBricks()
       if ( blockY < BlockMatrixHEIGHT ) 
       {
         bricksmatrix[blockX][blockY] = 1;                   // Stein setzen
-        ledDriver.setPixel(blockX,blockY,Stage,abcBrightness);
+        ledDriver.setPixel(blockX,blockY,Stage,brightness);
       }
       else bricksmatrix[blockX][blockY] = 0;
     }
