@@ -100,10 +100,12 @@
 #include <LittleFS.h>
 
 #include <SoftwareSerial.h>
-#include <DFRobotDFPlayerMini.h>
 
 #include "Configuration.h"
 
+#ifdef AUDIO_SOUND
+#include <DFRobotDFPlayerMini.h>
+#endif
 
 //IR_RECEIVER
 #ifdef IR_RECEIVER
