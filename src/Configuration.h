@@ -121,7 +121,7 @@
 #define SERIAL_SPEED 115200
 
 //#define ONOFF_BUTTON
-#define MODE_BUTTON
+//#define MODE_BUTTON
 //#define SHOW_TIME_BUTTON
 
 
@@ -131,7 +131,7 @@
 #define TEST_BRIGHTNESS 80                           // Helligkeit beim LED Test
 
 // Ist ein BME280 an Board
-#define SENSOR_BME280
+//#define SENSOR_BME280
 #define SEALEVELPRESSURE_HPA (1013.25)               //* Luftdruck auf Meereshöhe
 #define BME_TEMPERATURE_OFFSET -0.1                  // Temperaturkorrektur
 #define BME_HUMIDITY_OFFSET +0.1                     // Luftfeuchtekorrektur
@@ -157,8 +157,8 @@
 //#define SENSOR_MCP9808
 #define MCP_TEMPERATURE_OFFSET -0.1                  // Temperaturkorrektur
 
-//#define RTC_BACKUP
-#define RTC_TEMPERATURE_OFFSET -0.1
+#define RTC_BACKUP
+#define RTC_TEMPERATURE_OFFSET -4.0
 
 // Lichtabhängiger Widerstand an Board?
 #define LDR
@@ -172,7 +172,7 @@
 //#define BUZZTIME_TIMER 10
 
 // MP3 Spieler vorhanden:
-#define AUDIO_SOUND
+//#define AUDIO_SOUND
 
 #ifdef AUDIO_SOUND
 
@@ -245,7 +245,7 @@
 #endif //Ende AUDIO_SOUND
 
 // IR-Receiver vorhanden:
-//#define IR_RECEIVER
+#define IR_RECEIVER
 #ifdef IR_RECEIVER
 //###################################################################
 //##################            QlockWiFive         #################
@@ -379,14 +379,14 @@
 //###################################################################
 
 
-#define NUMPIXELS 115                       // mit Alarm LED
-//#define NUMPIXELS 114                       // ohne Alarm LED
+//#define NUMPIXELS 115                       // mit Alarm LED
+#define NUMPIXELS 114                       // ohne Alarm LED
 
 // Das LED Layout (Siehe in LedDriver.cpp):
 //#define LED_LAYOUT_HORIZONTAL_1
 //#define LED_LAYOUT_HORIZONTAL_2         // B
-#define LED_LAYOUT_HORIZONTAL_3          // C (260x260)
-//#define LED_LAYOUT_VERTICAL_1
+//#define LED_LAYOUT_HORIZONTAL_3          // C (260x260)
+#define LED_LAYOUT_VERTICAL_1
 //#define LED_LAYOUT_VERTICAL_2
 //#define LED_LAYOUT_VERTICAL_3           // A (390x390)
 
@@ -455,20 +455,20 @@
 //******************************************************************************
 
 //                                 V1      KELLY
-//#define PIN_IR_RECEIVER  D6     //                          wird für IR-Receiver benötigt
+#define PIN_IR_RECEIVER  D6     //                          wird für IR-Receiver benötigt
 #define PIN_WIRE_SCL     SCL    // D1,SCL  D1,SCL             SCL
 #define PIN_WIRE_SDA     SDA    // D2,SDA  D2,SDA             SDA
-#define PIN_MODE_BUTTON  D7     // D7      D3,mode/flash
+//#define PIN_MODE_BUTTON  D7     // D7      D3,mode/flash
 #define PIN_LED          D4     // D4      D4,LED Data        LED_BUILTIN
-#define PIN_AUDIO_RX     D5     // D5      D5,14
-#define PIN_AUDIO_TX     D3     // D3      D7,13
-#define PIN_AUDIO_BUSY   D0     // D0      D0,16              kein Interrupt!
+//#define PIN_AUDIO_RX     D5     // D5      D5,14
+//#define PIN_AUDIO_TX     D3     // D3      D7,13
+//#define PIN_AUDIO_BUSY   D0     // D0      D0,16              kein Interrupt!
 //#define PIN_BUZZER       D4     //
 //#define PIN_LEDS_CLOCK   D6     //       D6,12              wird für LPD8806RGBW benötigt D6
-#define PIN_LEDS_DATA    D8     // D8      D8,Data            (z.B. WS2812B)
+#define PIN_LEDS_DATA    D7     // D8      D8,Data            (z.B. WS2812B)
 #define PIN_LDR          A0     // A0      A0,LDR             ADC
-#define PIN_SHOW_TIME_BUTTON RX //         RX,time
-#define PIN_ONOFF_BUTTON TX     //         TX,on/off
+//#define PIN_SHOW_TIME_BUTTON RX //         RX,time
+//#define PIN_ONOFF_BUTTON TX     //         TX,on/off
 // GPIO 06 to GPIO 11 are
 // used for flash memory databus
 
