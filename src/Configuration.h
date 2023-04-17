@@ -33,11 +33,11 @@
 
 //#define POWERON_SELFTEST                     // LEDs werden beim anschalten mit versch. Farben getestet. Der Test kann auch im Mode Modus bei nochmalige betätigen des ModeButtons während der Sekunden Ausgabe gestartet werden. 
 //* welche Modes gibt es:
-#define SHOW_MODE_ANSAGE                       
+//#define SHOW_MODE_ANSAGE                       
 #define SHOW_MODE_SECONDS
 #define SHOW_MODE_WEEKDAY
 #define SHOW_MODE_DATE
-#define SHOW_MODE_MOONPHASE
+//#define SHOW_MODE_MOONPHASE
 #define SHOW_MODE_WETTER
 #define SHOW_MODE_TEST
 
