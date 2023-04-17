@@ -398,9 +398,9 @@
 
 #define LED_LIBRARY_NEOPIXEL
 
-#define NEOPIXEL_TYPE NEO_GRB + NEO_KHZ800     // see Adafruit_NeoPixel.h for help
+//#define NEOPIXEL_TYPE NEO_GRB + NEO_KHZ800     // see Adafruit_NeoPixel.h for help
 
-//#define NEOPIXEL_TYPE NEO_GRBW + NEO_KHZ800
+#define NEOPIXEL_TYPE NEO_GRBW + NEO_KHZ800
 
 //#define NEOPIXEL_TYPE NEO_WRGB + NEO_KHZ800
 
