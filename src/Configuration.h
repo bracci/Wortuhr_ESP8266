@@ -51,7 +51,7 @@
 #define OPENWEATHER_PERIODE 1800                        //* wie oft in Sekunden openweather.org aufgerufen wird
 #define OPENWEATHER_MAX_ERROR 20                        //* bei Fehler: wie oft es pro Tag versucht wird bis es aufgegeben wird
 
-#define SunRiseLib                                      // falls kein API Key vorhanden ist kann Sonnenaufgang/Sonnenuntergang über die Lib SunRise.h berechnet werden.
+#define SUNRISE_LIBRARY                                      // falls kein API Key vorhanden ist kann Sonnenaufgang/Sonnenuntergang über die Lib SunRise.h berechnet werden.
 #define LONGITUDE 8.244                                 // Die RunRise Lib ist in der Bibliotheksverwaltung zu finden.
 #define LATITUDE 48.766                                 // Dafür wird der Standort benötigt. Kann z.B. über google maps erfolgen. Die eigentliche Standort wird in Settings eingestellt.
 

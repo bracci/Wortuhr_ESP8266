@@ -137,6 +137,9 @@
 #include "LedDriver_LPD8806RGBW.h"
 #endif
 
+#ifdef SUNRISE_LIBRARY
+#include <SunRise.h>
+#endif
 
 #include "Colors.h"
 #include "Events.h"
@@ -154,10 +157,6 @@
 #include "Audio.h"
 #include "Animation.h"
 #include "html_content.h"
-
-#ifdef SunRiseLib
-#include <SunRise.h>
-#endif
 
 //******************************************************************************
 // Init
@@ -311,7 +310,7 @@ int ani_moonphase = 0;
 uint8_t web_moonphase = 0;
 
 
-#ifdef SunRiseLib
+#ifdef SUNRISE_LIBRARY
 time_t sunRiseTime;
 time_t sunSetTime;
 SunRise sr;
@@ -908,7 +907,7 @@ void loop()
 #endif
 
     // SunRise
-#ifdef SunRiseLib
+#ifdef SUNRISE_LIBRARY
     sr.calculate(settings.mySettings.latitude, settings.mySettings.longitude, timeZone.toUTC(now()) );
     sunRiseTime = timeZone.toLocal(sr.riseTime);
     sunSetTime = timeZone.toLocal(sr.setTime);
@@ -1268,7 +1267,7 @@ void loop()
 
 
     // SunRise
-#ifdef SunRiseLib
+#ifdef SUNRISE_LIBRARY
     if (aktMinute == randomMinute + 1 )
     {
       sr.calculate(settings.mySettings.latitude, settings.mySettings.longitude, timeZone.toUTC(now()) );
@@ -4482,7 +4481,7 @@ void sunriseset()
   else
   {
 #endif // APIKEY
-#ifdef SunRiseLib
+#ifdef SUNRISE_LIBRARY
     if ( hour(sunRiseTime) > 0 )
     {
       sunriseHour = hour(sunRiseTime);
@@ -4499,7 +4498,7 @@ void sunriseset()
       if ( sunsetSecond > 40 ) sunsetSecond = 40;
       if ( sunsetSecond < 10 ) sunsetSecond = 10;
     }
-#endif  // SunRiseLib
+#endif  // SUNRISE_LIBRARY
 #ifdef APIKEY
   }
 #endif
@@ -5016,7 +5015,7 @@ void handleRoot()
   message += F("<tr>");
   message += F("<td>");
 
-#if defined(SunRiseLib) || defined(APIKEY)
+#if defined(SUNRISE_LIBRARY) || defined(APIKEY)
   message += F("<span id=\"Sonnenzeit\" title=\"" LANG_SUNRISE "\">");
   message += String(sunriseHour);
 #ifdef FRONTCOVER_FR
@@ -5033,7 +5032,7 @@ void handleRoot()
 
   message += F("<td>");
 
-#if defined(SunRiseLib) || defined(APIKEY)
+#if defined(SUNRISE_LIBRARY) || defined(APIKEY)
   message += F("<span id=\"Sonnenzeit\" title=\"" LANG_SUNSET "\">");
 #ifdef FRONTCOVER_EN
   message += String(sunsetHour-12);
@@ -5688,9 +5687,9 @@ void debugClock()
                "</li>\n");
 #endif
 
-  // ######################### SUNRISELIB ##################
-#ifdef SunRiseLib
-  message += F("<li><b>SunRiseLib</b>\n"
+  // ######################### SUNRISE_LIBRARY ##################
+#ifdef SUNRISE_LIBRARY
+  message += F("<li><b>SUNRISE_LIBRARY</b>\n"
                "<ul>\n");
   message += F("<li>" LANG_INFOSUNSETRISE ": ");
   if ( !ani_sunrise_done ) message += F("<b>");
@@ -6266,7 +6265,7 @@ void handleButtonSettings()
   message += F("</td></tr>\n");
 #endif
   // ------------------------------------------------------------------------
-#if defined(SunRiseLib) || defined(APIKEY)
+#if defined(SUNRISE_LIBRARY) || defined(APIKEY)
   message += F("<tr><td>"
                LANG_SUNRISE_SUNSET
                ":</td><td>"
@@ -6835,14 +6834,14 @@ void handleButtonSettings()
   message += F("\" name=\"sysname\" minlength=\"3\" maxlength=\"29\">"
                "</td></tr>\n");
   // ------------------------------------------------------------------------
-#if defined(SunRiseLib) || defined(APIKEY)
+#if defined(SUNRISE_LIBRARY) || defined(APIKEY)
   message += F("<tr><td>"
                "OpenWeather<br>ApiKey:<br>"
                LANG_LOCATION
                ":<br>"
                LANG_ALTITUDE
                ":");
-#ifdef SunRiseLib
+#ifdef SUNRISE_LIBRARY
   message += F("<br>"
                LANG_LATITUDE
                ":<br>"
@@ -6860,7 +6859,7 @@ void handleButtonSettings()
   message += String(settings.mySettings.standort_hoehe);
   message += F("\" name=\"hoehe\" min=\"0\" max=\"10000\">"
                " m");
-#ifdef SunRiseLib
+#ifdef SUNRISE_LIBRARY
   message += F("<br><input type=\"number\" value=\"");
   message += String(settings.mySettings.latitude);
   message += F("\" name=\"latitude\" min=\"-90\" max=\"90\" step=0.01 >"
@@ -7116,7 +7115,7 @@ void handleCommitSettings()
     if ( autoModeChangeTimer != settings.mySettings.auto_mode_change * 60 ) autoModeChangeTimer = settings.mySettings.auto_mode_change * 60 ;
   }
   // ------------------------------------------------------------------------
-#if defined(SunRiseLib) || defined(APIKEY)
+#if defined(SUNRISE_LIBRARY) || defined(APIKEY)
   // Sunrise/ Sunset
   if ( webServer.arg("sunr") == "0" ) settings.mySettings.ani_sunrise = false;
   if ( webServer.arg("sunr") == "1" ) settings.mySettings.ani_sunrise = true;
@@ -7616,7 +7615,7 @@ void handleAPIdata()
   }
 #endif
 
-#ifdef SunRiseLib
+#ifdef SUNRISE_LIBRARY
   if ( webServer.arg(F("group"))== "" || webServer.arg(F("group")).indexOf(F("sun")) >= 0 )
   {
     message += F("\"sun\": {\n");
