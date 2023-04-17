@@ -7149,7 +7149,6 @@ void handleCommitSettings()
   {
     settings.mySettings.useAbc = true;
     updateBrightness();
-    if ( lastLdrValue <= 200 ) lastLdrValue = lastLdrValue + 99; else lastLdrValue = lastLdrValue - 99;
   }
 #else
   settings.mySettings.useAbc = false;
