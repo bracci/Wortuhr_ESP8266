@@ -1959,6 +1959,90 @@ void loop()
         setMode(MODE_SECONDS);
       break;
 #endif
+      case IR_CODE_RED:
+        settings.mySettings.colorChange = COLORCHANGE_NO;
+        settings.mySettings.corner_colorChange = COLORCHANGE_NO;
+        settings.mySettings.color = RED;
+        settings.mySettings.corner_color = settings.mySettings.color;
+        colorsaver = settings.mySettings.color;
+        screenBufferNeedsUpdate = true;
+        break;
+      case IR_CODE_GREEN:
+        settings.mySettings.colorChange = COLORCHANGE_NO;
+        settings.mySettings.corner_colorChange = COLORCHANGE_NO;
+        settings.mySettings.color = GREEN;
+        settings.mySettings.corner_color = settings.mySettings.color;
+        colorsaver = settings.mySettings.color;
+        screenBufferNeedsUpdate = true;
+        break;
+      case IR_CODE_DARKBLUE:
+        settings.mySettings.colorChange = COLORCHANGE_NO;
+        settings.mySettings.corner_colorChange = COLORCHANGE_NO;
+        settings.mySettings.color = BLUE;
+        settings.mySettings.corner_color = settings.mySettings.color;
+        colorsaver = settings.mySettings.color;
+        screenBufferNeedsUpdate = true;
+        break;
+      case IR_CODE_PINK:
+        settings.mySettings.colorChange = COLORCHANGE_NO;
+        settings.mySettings.corner_colorChange = COLORCHANGE_NO;
+        settings.mySettings.color = PINK;
+        settings.mySettings.corner_color = settings.mySettings.color;
+        colorsaver = settings.mySettings.color;
+        screenBufferNeedsUpdate = true;
+        break;
+      case IR_CODE_WHITE:
+        settings.mySettings.colorChange = COLORCHANGE_NO;
+        settings.mySettings.corner_colorChange = COLORCHANGE_NO;
+        settings.mySettings.color = WHITE;
+        settings.mySettings.corner_color = settings.mySettings.color;
+        colorsaver = settings.mySettings.color;
+        screenBufferNeedsUpdate = true;
+        break;
+      case IR_CODE_BRIGHTBLUE:
+        settings.mySettings.colorChange = COLORCHANGE_NO;
+        settings.mySettings.corner_colorChange = COLORCHANGE_NO;
+        settings.mySettings.color = BLUE_25;
+        settings.mySettings.corner_color = settings.mySettings.color;
+        colorsaver = settings.mySettings.color;
+        screenBufferNeedsUpdate = true;
+        break;
+      case IR_CODE_YELLOW:
+        settings.mySettings.colorChange = COLORCHANGE_NO;
+        settings.mySettings.corner_colorChange = COLORCHANGE_NO;
+        settings.mySettings.color = YELLOW;
+        settings.mySettings.corner_color = settings.mySettings.color;
+        colorsaver = settings.mySettings.color;
+        screenBufferNeedsUpdate = true;
+        break;
+      case IR_CODE_ORANGE:
+        settings.mySettings.colorChange = COLORCHANGE_NO;
+        settings.mySettings.corner_colorChange = COLORCHANGE_NO;
+        settings.mySettings.color = ORANGE;
+        settings.mySettings.corner_color = settings.mySettings.color;
+        colorsaver = settings.mySettings.color;
+        screenBufferNeedsUpdate = true;
+        break;
+      case IR_CODE_NORMAL:
+        settings.mySettings.transition = TRANSITION_NORMAL;
+        forcedTransition = true;
+        screenBufferNeedsUpdate = true;
+        break;
+      case IR_CODE_FADE:
+        settings.mySettings.transition = TRANSITION_FADE;
+        forcedTransition = true;
+        screenBufferNeedsUpdate = true;
+        break;
+      case IR_CODE_MATRIX:
+        settings.mySettings.transition = TRANSITION_MATRIX;
+        forcedTransition = true;
+        screenBufferNeedsUpdate = true;
+        break;
+      case IR_CODE_SLIDE:
+        settings.mySettings.transition = TRANSITION_MOVEDOWN;
+        forcedTransition = true;
+        screenBufferNeedsUpdate = true;
+        break;
     }
     irrecv.resume();
   }

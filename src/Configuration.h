@@ -248,6 +248,59 @@
 //#define IR_RECEIVER
 #ifdef IR_RECEIVER
 //###################################################################
+//##################            QlockWiFive         #################
+//###################################################################
+#define IR_CODE_ONOFF        (0xFFE01F) // QWF V1.0 Remote Power
+#define IR_CODE_TIME         (0xFFA05F) // QWF V1.0 Remote Time
+#define IR_CODE_SETTINGS     (0xFFC837) // QWF V1.0 Remote Mode
+#define IR_CODE_HELLER       (0xFF58A7) // QWF V1.0 Remote Bright. Plus
+#define IR_CODE_DUNKLER      (0xFF48B7) // QWF V1.0 Remote Bright. Minus
+
+#define IR_CODE_MODE         (0xFFD827) // QWF V1.0 Remote Region
+#define IR_CODE_SECONDS      (0xFF20DF) // QWF V1.0 Remote Seconds
+#define IR_CODE_DATE         (0xFF609F) // QWF V1.0 Remote Date
+
+#define IR_CODE_RED          (0xFF906F) // QWF V1.0 Remote Red
+#define IR_CODE_GREEN        (0xFF10EF) // QWF V1.0 Remote Green
+#define IR_CODE_DARKBLUE     (0xFF50AF) // QWF V1.0 Remote Darkblue
+#define IR_CODE_PINK         (0xFFD02F) // QWF V1.0 Remote Pink
+#define IR_CODE_WHITE        (0xFFB04F) // QWF V1.0 Remote White
+#define IR_CODE_BRIGHTBLUE   (0xFF30CF) // QWF V1.0 Remote Brightblue
+#define IR_CODE_YELLOW       (0xFF708F) // QWF V1.0 Remote Yellow
+#define IR_CODE_ORANGE       (0xFFF00F) // QWF V1.0 Remote RGB
+
+#define IR_CODE_NORMAL       (0xFF9867) // QWF V1.0 Remote Normal
+#define IR_CODE_FADE         (0xFF18E7) // QWF V1.0 Remote Fade
+#define IR_CODE_MATRIX       (0xFF8877) // QWF V1.0 Remote Matrix
+#define IR_CODE_SLIDE        (0xFF08F7) // QWF V1.0 Remote Slide
+
+#define IR_CODE_MOOD         (0xFFA857) // QWF V1.0 Remote Mood
+#define IR_CODE_5MIN         (0xFF28D7) // QWF V1.0 Remote 5min
+#define IR_CODE_1H           (0xFF6897) // QWF V1.0 Remote 1h
+#define IR_CODE_24H          (0xFFE817) // QWF V1.0 Remote 24h
+
+#define IR_CODE_LEISER       (0xFFFFFF) // Vol-
+#define IR_CODE_LAUTER       (0xFFFFFE) // Vol++
+#define IR_CODE_WEEKDAY      (0xFFFFFD) // 1
+#define IR_CODE_MOND         (0xFFFFFB) // 3
+#define IR_CODE_TEMP         (0xFFFFFA) // 4
+#define IR_CODE_HUMIDITY     (0xFFFFF9) // 5
+#define IR_CODE_LUFTDRUCK    (0xFFFFF8) // 6
+#define IR_CODE_WETTER       (0xFFFFF7) // 7
+#define IR_CODE_EXT_TEMP     (0xFFFFF6) // 8
+#define IR_CODE_EXT_HUMIDITY (0xFFFFF5) // 9
+
+//#define IR_RECEIVER_GAME                                   // IR-Ferbedienung zur Spielesteuerung (experimentell)
+#ifdef IR_RECEIVER_GAME
+#define IR_CODE_LEFT          16720605 // <
+#define IR_CODE_UP            16736925 // ^
+#define IR_CODE_RIGHT         16761405 // >
+#define IR_CODE_DOWN          16754775 // v
+#define IR_CODE_MIDDLE        16712445 // Enter
+#define IR_CODE_STOP          16732845 // Stop/Mode
+#endif
+
+//###################################################################
 //##################              KTS017            #################
 //###################################################################
 //#define IR_CODE_ONOFF         16728765 // On/Off
@@ -290,33 +343,33 @@
 //##################           BerryBase            #################
 //##(https://www.berrybase.de/infrarot-fernbedienung-mit-21-tasten)##
 //###################################################################
-#define IR_CODE_ONOFF         0xFD807F // On/Off
-#define IR_CODE_TIME          0xFD906F // Enter
-#define IR_CODE_MODE          0xFD609F // Stop/mode
-#define IR_CODE_LEISER        0xFD00FF // Vol-
-#define IR_CODE_LAUTER        0xFD40BF // Vol+
-#define IR_CODE_DUNKLER       0xFD10EF // <
-#define IR_CODE_HELLER        0xFD50AF // >
-#define IR_CODE_SECONDS       0xFD30CF // 0/10+
-#define IR_CODE_WEEKDAY       0xFD08F7 // 1
-#define IR_CODE_DATE          0xFD8877 // 2
-#define IR_CODE_MOND          0xFD48B7 // 3
-#define IR_CODE_TEMP          0xFD28D7 // 4
-#define IR_CODE_HUMIDITY      0xFDA857 // 5
-#define IR_CODE_LUFTDRUCK     0xFD6897 // 6
-#define IR_CODE_WETTER        0xFD18E7 // 7
-#define IR_CODE_EXT_TEMP      0xFD9867 // 8
-#define IR_CODE_EXT_HUMIDITY  0xFD58A7 // 9
-
-#define IR_RECEIVER_GAME                                     // IR-Ferbedienung zur Spielesteuerung (experimentell)
-#ifdef IR_RECEIVER_GAME
-  #define IR_CODE_LEFT          0xFD10EF // <
-  #define IR_CODE_UP            0xFDA05F // ^
-  #define IR_CODE_RIGHT         0xFD50AF // >
-  #define IR_CODE_DOWN          0xFDB04F // v
-  #define IR_CODE_MIDDLE        0xFD906F // Enter
-  #define IR_CODE_STOP          0xFD609F // Stop/Mode
-#endif
+//#define IR_CODE_ONOFF         0xFD807F // On/Off
+//#define IR_CODE_TIME          0xFD906F // Enter
+//#define IR_CODE_MODE          0xFD609F // Stop/mode
+//#define IR_CODE_LEISER        0xFD00FF // Vol-
+//#define IR_CODE_LAUTER        0xFD40BF // Vol+
+//#define IR_CODE_DUNKLER       0xFD10EF // <
+//#define IR_CODE_HELLER        0xFD50AF // >
+//#define IR_CODE_SECONDS       0xFD30CF // 0/10+
+//#define IR_CODE_WEEKDAY       0xFD08F7 // 1
+//#define IR_CODE_DATE          0xFD8877 // 2
+//#define IR_CODE_MOND          0xFD48B7 // 3
+//#define IR_CODE_TEMP          0xFD28D7 // 4
+//#define IR_CODE_HUMIDITY      0xFDA857 // 5
+//#define IR_CODE_LUFTDRUCK     0xFD6897 // 6
+//#define IR_CODE_WETTER        0xFD18E7 // 7
+//#define IR_CODE_EXT_TEMP      0xFD9867 // 8
+//#define IR_CODE_EXT_HUMIDITY  0xFD58A7 // 9
+//
+//#define IR_RECEIVER_GAME                                     // IR-Ferbedienung zur Spielesteuerung (experimentell)
+//#ifdef IR_RECEIVER_GAME
+//  #define IR_CODE_LEFT          0xFD10EF // <
+//  #define IR_CODE_UP            0xFDA05F // ^
+//  #define IR_CODE_RIGHT         0xFD50AF // >
+//  #define IR_CODE_DOWN          0xFDB04F // v
+//  #define IR_CODE_MIDDLE        0xFD906F // Enter
+//  #define IR_CODE_STOP          0xFD609F // Stop/Mode
+//#endif
 //###################################################################
 //#define IR_LETTER_OFF
 #define IR_LETTER_X 8
