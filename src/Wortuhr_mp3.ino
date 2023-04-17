@@ -266,6 +266,7 @@ uint16_t matrix[10] = {};
 uint16_t matrixOld[10] = {};
 boolean screenBufferNeedsUpdate = true;
 bool wortuhrinit = true;
+bool forcedTransition = false;
 
 // Mode
 Mode mode = MODE_TIME;
@@ -1992,9 +1993,32 @@ void loop()
         matrix[8] = year() - 2000 << 5;
 #else
         // Hier wird die Uhrzeit gesetzt:
-        renderer.setTime(aktHour, aktMinute, matrix);
-        renderer.setCorners(aktMinute, matrix);
-        if (!settings.mySettings.itIs && ((aktMinute / 5) % 6)) renderer.clearEntryWords(matrix);
+        if (forcedTransition) {
+          screenBufferNeedsUpdate = true;
+          uint8_t simMinute;
+          uint8_t simHour;
+          if (aktMinute < 55) {
+            simMinute = ((aktMinute / 5) + 1) * 5;
+            simHour = aktHour;
+          } else {
+            simMinute = 0;
+            if (aktHour < 23) {
+              simHour = aktHour + 1;
+            } else {
+              simHour = 0;
+            }
+          }
+
+          renderer.setTime(simHour, simMinute, matrix);
+          renderer.setCorners(simMinute, matrix);
+          if (!settings.mySettings.itIs && ((simMinute / 5) % 6)) renderer.clearEntryWords(matrix);
+        }
+        else {
+          renderer.setTime(aktHour, aktMinute, matrix);
+          renderer.setCorners(aktMinute, matrix);
+          if (!settings.mySettings.itIs && ((aktMinute / 5) % 6)) renderer.clearEntryWords(matrix);
+        }
+
 #endif
 #ifdef ALARM_LED_COLOR  // <----- hier einfügen
 #if defined(BUZZER) || defined(AUDIO_SOUND)
@@ -2617,12 +2641,13 @@ void loop()
         }
         else
         {
-          if (aktMinute % 5 != 0 )
+          if (aktMinute % 5 != 0 && forcedTransition != true)
           {
             writeScreenBufferFade(matrixOld, matrix, settings.mySettings.color, brightness);
           }
           else
           {
+            forcedTransition = false;
             akt_transition = settings.mySettings.transition;
             if ( settings.mySettings.transition == TRANSITION_RANDOM )
             {
