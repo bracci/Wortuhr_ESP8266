@@ -346,7 +346,7 @@ uint8_t errorCounterBME = 0;
 uint8_t Tempcolor;
 
 // Brightness and LDR
-uint8_t brightness = map(settings.mySettings.brightness, 10, 100, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
+uint8_t brightness = map(settings.mySettings.brightness, 0, 100, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
 uint8_t abcBrightness = brightness;
 uint16_t ldrValue = 0;
 #ifdef LDR
@@ -521,9 +521,9 @@ void setup()
   Serial.print(F("Setting up LDR. ABC: "));
   settings.mySettings.useAbc ? Serial.println(F("enabled")) : Serial.println(F("disabled"));
   pinMode(PIN_LDR, INPUT);
-  if (settings.mySettings.useAbc) setBrightnessFromLdr();
 #endif
 
+  updateBrightness();
 
 #ifdef AUDIO_SOUND
   Serial.print(F("Setting up Audio Sound."));
@@ -541,10 +541,6 @@ void setup()
   Serial.print(F("."));
   delay(750);
   Serial.println(F(". fertig!"));
-  
-#ifdef LDR
-  if (settings.mySettings.useAbc) setBrightnessFromLdr();
-#endif
 
   if ( settings.mySettings.sprecher )
   {
@@ -1418,7 +1414,7 @@ void loop()
 
     // Set brightness from LDR
 #ifdef LDR
-    if (settings.mySettings.useAbc) setBrightnessFromLdr();
+    if (settings.mySettings.useAbc) setBrightnessFromLdr(false);
 #endif
 
 #ifdef FRONTCOVER_BINARY
@@ -1822,51 +1818,23 @@ void loop()
 
 //#Heller
       case IR_CODE_HELLER:
-        if ( settings.mySettings.brightness <= 90 ) settings.mySettings.brightness = settings.mySettings.brightness + 10;
+        if ( settings.mySettings.brightness <= 90 ) {
+          settings.mySettings.brightness = settings.mySettings.brightness + 10;
+          updateBrightness();
+        }
 #ifdef AUDIO_SOUND
         Play_MP3(700, false, 0); 
 #endif
-#ifdef LDR
-        if ( settings.mySettings.useAbc ) 
-        {
-           abcBrightness = map(settings.mySettings.brightness, 10, 100, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
-           if ( lastLdrValue <= 200 ) lastLdrValue = lastLdrValue + 99; else lastLdrValue = lastLdrValue - 99;
-        }
-        else
-        {
-           abcBrightness = map(settings.mySettings.brightness, 10, 100, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
-           brightness = abcBrightness;
-        }
-#else
-        abcBrightness = map(settings.mySettings.brightness, 10, 100, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
-        brightness = abcBrightness;
-#endif 
-        ldr_update = true;
-        screenBufferNeedsUpdate = true;
       break;
 //#Dunkler
       case IR_CODE_DUNKLER:
-        if ( settings.mySettings.brightness >= 10 ) settings.mySettings.brightness = settings.mySettings.brightness - 10;
+        if ( settings.mySettings.brightness >= 10 ) {
+          settings.mySettings.brightness = settings.mySettings.brightness - 10;
+          updateBrightness();
+        }
 #ifdef AUDIO_SOUND
         Play_MP3(700, false, 0);
 #endif
-#ifdef LDR
-        if ( settings.mySettings.useAbc ) 
-        {
-           abcBrightness = map(settings.mySettings.brightness, 10, 100, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
-           if ( lastLdrValue <= 200 ) lastLdrValue = lastLdrValue + 99; else lastLdrValue = lastLdrValue - 99;
-        }
-        else
-        {
-           abcBrightness = map(settings.mySettings.brightness, 10, 100, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
-           brightness = abcBrightness;
-        }
-#else
-        abcBrightness = map(settings.mySettings.brightness, 10, 100, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
-        brightness = abcBrightness;
-#endif 
-        ldr_update = true;
-        screenBufferNeedsUpdate = true;
       break;
 
 //#Wochentag
@@ -4252,10 +4220,27 @@ void setMode(Mode newMode)
 }
 
 //******************************************************************************
+// update brightness
+//******************************************************************************
+void updateBrightness() {
+#ifdef LDR
+  if (settings.mySettings.useAbc) {
+    setBrightnessFromLdr(true);
+  }
+  else {
+    brightness = map(settings.mySettings.brightness, 0, 100, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
+  }
+#else
+  brightness = map(settings.mySettings.brightness, 0, 100, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
+#endif
+  screenBufferNeedsUpdate = true;
+}
+
+//******************************************************************************
 // get brightness from LDR
 //******************************************************************************
 #ifdef LDR
-void setBrightnessFromLdr()
+void setBrightnessFromLdr(bool forced)
 {
 #ifdef LDR_IS_INVERSE
   ldrValue = 1024 - analogRead(PIN_LDR);
@@ -4264,7 +4249,7 @@ void setBrightnessFromLdr()
 #endif
   if (ldrValue < minLdrValue) minLdrValue = ldrValue;
   if (ldrValue > maxLdrValue) maxLdrValue = ldrValue;
-  if ((ldrValue >= (lastLdrValue + 30)) || (ldrValue <= (lastLdrValue - 30))) // Hysteresis ist 30 (vorher 40)
+  if ((ldrValue >= (lastLdrValue + 30)) || (ldrValue <= (lastLdrValue - 30)) || forced) // Hysteresis ist 30 (vorher 40)
   {
     lastLdrValue = ldrValue;
     brightness = map(ldrValue, minLdrValue, maxLdrValue, MIN_BRIGHTNESS, abcBrightness);
@@ -7133,18 +7118,17 @@ void handleCommitSettings()
   if (webServer.arg("ab") == "0")
   {
     settings.mySettings.useAbc = false;
-    brightness = map(settings.mySettings.brightness, 10, 100, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
+    updateBrightness();
   }
   if (webServer.arg("ab") == "1")
   {
-    abcBrightness = map(settings.mySettings.brightness, 10, 100, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
     settings.mySettings.useAbc = true;
+    updateBrightness();
     if ( lastLdrValue <= 200 ) lastLdrValue = lastLdrValue + 99; else lastLdrValue = lastLdrValue - 99;
   }
 #else
   settings.mySettings.useAbc = false;
-  abcBrightness = map(settings.mySettings.brightness, 10, 100, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
-  brightness = abcBrightness;
+  updateBrightness();
 #endif
 
   // ------------------------------------------------------------------------
