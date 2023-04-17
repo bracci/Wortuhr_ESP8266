@@ -4277,6 +4277,7 @@ void setBrightnessFromLdr(bool forced)
   if ((ldrValue >= (lastLdrValue + 30)) || (ldrValue <= (lastLdrValue - 30)) || forced) // Hysteresis ist 30 (vorher 40)
   {
     lastLdrValue = ldrValue;
+    abcBrightness = map(settings.mySettings.brightness, 0, 100, MIN_BRIGHTNESS, MAX_BRIGHTNESS);
     brightness = map(ldrValue, minLdrValue, maxLdrValue, MIN_BRIGHTNESS, abcBrightness);
     screenBufferNeedsUpdate = true;
     ldr_update = true;
