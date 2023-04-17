@@ -4268,12 +4268,8 @@ void setBrightnessFromLdr()
   {
     lastLdrValue = ldrValue;
     brightness = map(ldrValue, minLdrValue, maxLdrValue, MIN_BRIGHTNESS, abcBrightness);
-    if ( !screenBufferNeedsUpdate )
-    {
-      screenBufferNeedsUpdate = true;
-      ldr_update = true;
-    }
-  
+    screenBufferNeedsUpdate = true;
+    ldr_update = true;
 #ifdef DEBUG
     Serial.printf("Brightness: %u (min: %u, max: %u)\r\n", brightness, MIN_BRIGHTNESS, abcBrightness);
     Serial.printf("LDR: %u (min: %u, max: %u)\r\n", ldrValue, minLdrValue, maxLdrValue);
