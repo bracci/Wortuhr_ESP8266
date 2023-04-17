@@ -399,7 +399,6 @@ uint8_t testColumn = 0;
 int updateInfo = 0;
 IPAddress myIP = { 0, 0, 0, 0 };
 unsigned long lastButtonPress = 0;
-boolean transitionInProgress = false;
 uint8_t colorsaver = 0;
 uint8_t colorold = 0;
 uint8_t cornercolorold = 0;
@@ -3820,7 +3819,6 @@ void writeScreenBufferFade(uint16_t screenBufferOld[], uint16_t screenBufferNew[
 #ifdef DEBUG
   Serial.printf("Color: %i CornerColor: %i\n", color, settings.mySettings.corner_color );
 #endif
-  transitionInProgress = true;
   ledDriver.clear();
   uint8_t brightnessBuffer[10][12] = {};
 
@@ -3927,7 +3925,6 @@ void writeScreenBufferFade(uint16_t screenBufferOld[], uint16_t screenBufferNew[
 #endif
     ledDriver.show();
   }
-  transitionInProgress = false;
   colorold = color;
   cornercolorold = settings.mySettings.corner_color;
   if ( lastMode == MODE_DATE && mode == MODE_TIME )
