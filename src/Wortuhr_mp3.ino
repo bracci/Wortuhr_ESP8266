@@ -2717,6 +2717,7 @@ void loop()
         }
 
         break;
+#ifdef SHOW_MODE_ANSAGE
       case MODE_ANSAGE:
         //      writeScreenBufferFade(matrixOld, matrix, YELLOW, brightness);
         if ( !single_mode ) 
@@ -2724,6 +2725,7 @@ void loop()
           writeScreenBuffer(matrix, YELLOW, brightness);
         }
         break;
+#endif
 #ifdef APIKEY
 
       case MODE_WETTER:
