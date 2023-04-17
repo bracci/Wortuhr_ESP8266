@@ -492,7 +492,7 @@ bool moveMCursor(uint8_t &posAx, uint8_t &posAy, uint8_t &posBx, uint8_t &posBy,
     }
     
     
-    #if defined(RTC_BACKUP) || defined(SENSOR_BME280)
+    #if defined(RTC_BACKUP) || defined(SENSOR_BME280) || defined(SENSOR_MCP9808)
       if ( lastMinute != minute() ) {
         lastMinute = minute();
         if ( (minute()%20) - 1  == 0 || ( minute()%20 == 0 ) )

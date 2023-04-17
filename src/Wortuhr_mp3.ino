@@ -118,6 +118,11 @@
 #include <DS3232RTC.h>
 #endif
 
+//SENSOR_MCP9808
+#ifdef SENSOR_MCP9808
+#include <Adafruit_MCP9808.h>
+#endif
+
 // LED-Stripe Typ
 #ifdef LED_LIBRARY_NEOPIXEL
 #include "LedDriver.h"
@@ -192,6 +197,16 @@ Adafruit_BME280 bme;
 bool bme_status;
 float luftdruck_hist[15] = {};
 float lufdruck_hour[3] = {};
+#endif
+
+//MCP9808 (Temp Sensor)
+#ifdef SENSOR_MCP9808
+Adafruit_MCP9808 mcp;
+bool mcp_status;
+#endif
+
+//Temp Sensor
+#if defined(RTC_BACKUP) || defined(SENSOR_BME280) || defined(SENSOR_MCP9808)
 struct  temperatur_hist_struct
 {
   String stundeminute;
@@ -475,6 +490,18 @@ void setup()
       Serial.print(F("   ID of 0x56-0x58 represents a BMP 280,\n"));
       Serial.print(F("        ID of 0x60 represents a BME 280.\n"));
       Serial.print(F("        ID of 0x61 represents a BME 680.\n"));
+    }
+  }
+#endif
+
+
+#ifdef SENSOR_MCP9808
+  Serial.println(F("Setting up MCP9808."));
+  mcp_status = mcp.begin();
+  if (!mcp_status) {
+    mcp_status = mcp.begin(0x18);
+    if (!mcp_status) {
+      Serial.println(F("Could not find a valid MCP9808 sensor, check wiring, address!"));
     }
   }
 #endif
@@ -771,8 +798,10 @@ void setup()
   }
 
   // Update room conditions
-#ifdef SENSOR_BME280
+#if defined(RTC_BACKUP) || defined(SENSOR_BME280) || defined(SENSOR_MCP9808)
   getRoomConditions();
+
+#ifdef SENSOR_BME280
   // Initialisierung der Luftdruck Werte mit dummy Werte
   for (uint8_t ze = 0; ze <= 10; ze++)
   {
@@ -786,6 +815,7 @@ void setup()
   lufdruck_hour[0] = Pressure_red;
   lufdruck_hour[1] = Pressure_red;
   lufdruck_hour[2] = Pressure_red;
+#endif
 
   // Initialisierung der Temperatur Werte mit dummy Werte
   int stunde = hour();
@@ -1036,7 +1066,7 @@ void loop()
       Serial.println(WiFi.localIP());
 #endif
     }
-#if defined(RTC_BACKUP) || defined(SENSOR_BME280)
+#if defined(RTC_BACKUP) || defined(SENSOR_BME280) || defined(SENSOR_MCP9808)
     // Update room conditions
     getRoomConditions();
 #endif
@@ -1528,7 +1558,7 @@ void loop()
               break;
 
             case 1:
-#if defined(RTC_BACKUP) || defined(SENSOR_BME280)
+#if defined(RTC_BACKUP) || defined(SENSOR_BME280) || defined(SENSOR_MCP9808)
               setMode(MODE_TEMP);
 #else
 #ifdef APIKEY
@@ -1875,8 +1905,8 @@ void loop()
       break;
 #endif
 
-//#Temp
-#if defined(RTC_BACKUP) || defined(SENSOR_BME280)
+        //#Temp
+#if defined(RTC_BACKUP) || defined(SENSOR_BME280) || defined(SENSOR_MCP9808)
       case IR_CODE_TEMP:
         single_mode = true;
 #ifdef SINGLEMODE_MIT_SOUND
@@ -2131,7 +2161,7 @@ void loop()
         break;
 #endif
 
-#if defined(RTC_BACKUP) || defined(SENSOR_BME280)
+#if defined(RTC_BACKUP) || defined(SENSOR_BME280) || defined(SENSOR_MCP9808)
       case MODE_TEMP:
 #ifdef DEBUG
         if ( ModeSequenz == 1 )
@@ -2712,7 +2742,7 @@ void loop()
         }
         break;
 #endif
-#ifdef SENSOR_BME280
+#if defined(RTC_BACKUP) || defined(SENSOR_BME280) || defined(SENSOR_MCP9808)
       case MODE_TEMP:
         if (roomTemperature < 10 ) Tempcolor = VIOLET;
         else if (roomTemperature >= 10  && roomTemperature < 12) Tempcolor = BLUE;
@@ -4192,11 +4222,10 @@ void setMode(Mode newMode)
 #ifdef SHOW_MODE_MOONPHASE
     case MODE_MOONPHASE:
 #endif
-#if defined(RTC_BACKUP) && !defined(SENSOR_BME280)
+#if defined(RTC_BACKUP) || defined(SENSOR_MCP9808) || defined(SENSOR_BME280)
     case MODE_TEMP:
 #endif
 #ifdef SENSOR_BME280
-    case MODE_TEMP:
     case MODE_HUMIDITY:
     case MODE_LUFTDRUCK:
 #endif
@@ -4302,19 +4331,27 @@ void Luftdruckverlauf(uint16_t screenBuffer[])
 //******************************************************************************
 // Get room conditions
 //******************************************************************************
-#if defined(RTC_BACKUP) || defined(SENSOR_BME280)
+#if defined(RTC_BACKUP) || defined(SENSOR_BME280) || defined(SENSOR_MCP9808)
 void getRoomConditions()
 {
   int stunde = hour();
   String c_stunden;
   String c_minuten;
 
-#if defined(RTC_BACKUP) && !defined(SENSOR_BME280)
+#if defined(RTC_BACKUP) && !defined(SENSOR_BME280) &&  !defined(SENSOR_MCP9808)
   roomTemperature = RTC.temperature() / 4.0 + RTC_TEMPERATURE_OFFSET;
 #ifdef DEBUG
   Serial.println("Temperature (RTC): " + String(roomTemperature) + "C");
 #endif
 #endif
+#ifdef SENSOR_MCP9808
+  float mcpTemperature = mcp.readTempC();
+  roomTemperature = mcpTemperature + MCP_TEMPERATURE_OFFSET;
+#ifdef DEBUG
+  Serial.println("Temperature (MCP): " + String(roomTemperature) + "C");
+#endif
+#endif
+
 #ifdef SENSOR_BME280
   float luftdruckdiff = 0;
   float bmeTemperature = bme.readTemperature();
@@ -4364,27 +4401,7 @@ void getRoomConditions()
     if ( luftdruckdiff > LUFTDRUCK_DIFF_LEICHTSTEIGEND and luftdruckdiff <= LUFTDRUCK_DIFF_STEIGEND  ) luftdrucktendenz_web = 4; // leicht steigend
     if ( luftdruckdiff > LUFTDRUCK_DIFF_STEIGEND ) luftdrucktendenz_web = 5; //steigend
     info_luftdruckdiff = luftdruckdiff;
-    // Historisierung Temperatur
-    c_stunden = String(stunde);
-    if ( stunde < 10 ) c_stunden = "0" + c_stunden;
-    c_minuten = String(minute());
-    if ( minute() < 10 ) c_minuten = "0" + c_minuten;
-    if ( (minute() % 20) - 1  == 0 ) // Werte alle 20 Minuten (01,21,41)
-    {
-#ifdef DEBUG
-      Serial.println("Historisierung Temp. Werte: " + c_stunden + ":" + c_minuten);
-#endif
-      for (int hist = 0 ; hist <= 71; hist++)
-      {
-        temperatur_hist[hist] = temperatur_hist[hist + 1];
-      }
-    }
-    temperatur_hist[72].stundeminute =  c_stunden + ":" + c_minuten;
-    temperatur_hist[72].innentemp = roomTemperature;
-    temperatur_hist[72].aussentemp = 0;
-#ifdef APIKEY
-    temperatur_hist[72].aussentemp = outdoorWeather.temperature;
-#endif
+
 #ifdef DEBUG
     Serial.println("Temperature (BME): " + String(roomTemperature) + "C");
     Serial.println("Humidity (BME): " + String(roomHumidity) + "%");
@@ -4399,6 +4416,28 @@ void getRoomConditions()
     Serial.printf("Error (BME): %u\r\n", errorCounterBME);
 #endif
   }
+#endif
+
+  // Historisierung Temperatur
+  c_stunden = String(stunde);
+  if ( stunde < 10 ) c_stunden = "0" + c_stunden;
+  c_minuten = String(minute());
+  if ( minute() < 10 ) c_minuten = "0" + c_minuten;
+  if ( (minute() % 20) - 1  == 0 ) // Werte alle 20 Minuten (01,21,41)
+  {
+#ifdef DEBUG
+    Serial.println("Historisierung Temp. Werte: " + c_stunden + ":" + c_minuten);
+#endif
+    for (int hist = 0 ; hist <= 71; hist++)
+    {
+      temperatur_hist[hist] = temperatur_hist[hist + 1];
+    }
+  }
+  temperatur_hist[72].stundeminute =  c_stunden + ":" + c_minuten;
+  temperatur_hist[72].innentemp = roomTemperature;
+  temperatur_hist[72].aussentemp = 0;
+#ifdef APIKEY
+  temperatur_hist[72].aussentemp = outdoorWeather.temperature;
 #endif
 }
 #endif
@@ -5021,7 +5060,7 @@ void handleRoot()
 
   // Abschnitt Innentemperatur + Luftfeuchtigkeit + Luftdruck
 
-#if defined(RTC_BACKUP) || defined(SENSOR_BME280)
+#if defined(RTC_BACKUP) || defined(SENSOR_BME280) || defined(SENSOR_MCP9808)
   message += F("<br><span title=\"" LANG_INDOOR "\" style=\"font-size:30px;\">&#127968;</span>");  //Haus
   message += F("<br><br><span style=\"font-size:24px;\">&#127777;</span> <span style=\"font-size:20px;cursor:pointer\" onclick=\"modetemp()\">");
   message += String(roomTemperature,1);
@@ -5207,7 +5246,7 @@ void handleRoot()
   }
 #endif
 
-#ifdef SENSOR_BME280
+#if defined(RTC_BACKUP) || defined(SENSOR_BME280) || defined(SENSOR_MCP9808)
   //#####################
   // Temperatur Diagramm
   //#####################
@@ -5377,7 +5416,7 @@ void handleRoot()
   message += F("&sound=" SMODE_SOUND "\");"
                "};\n");
 #endif
-#if defined(RTC_BACKUP) || defined(SENSOR_BME280)
+#if defined(RTC_BACKUP) || defined(SENSOR_BME280) || defined(SENSOR_MCP9808)
   message += F("function modetemp() {"
                  "$.post(\"/control?mode="); 
   message += String(MODE_TEMP);
@@ -5731,6 +5770,11 @@ void debugClock()
   message += F("BME ");
 #else
   message += F("<s>BME280</s> ");
+#endif
+#ifdef SENSOR_MCP9808
+  message += F("MCP ");
+#else
+  message += F("<s>MCP9808</s> ");
 #endif
 #ifdef LDR
   message += F("LDR ");
@@ -6183,7 +6227,7 @@ void handleButtonSettings()
 
 #endif
   // ------------------------------------------------------------------------
-#if defined(RTC_BACKUP) || defined(SENSOR_BME280)
+#if defined(RTC_BACKUP) || defined(SENSOR_BME280) || defined(SENSOR_MCP9808)
   message += F("<tr><td>"
                LANG_DISPLAY
                "<br> "

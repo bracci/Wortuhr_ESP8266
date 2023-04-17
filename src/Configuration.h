@@ -153,6 +153,10 @@
 #define LUFTDRUCK_DIFF_LEICHTFALLEND -15
 #define LUFTDRUCK_DIFF_FALLEND -30
 
+// Ist ein MCP9808 an Board
+//#define SENSOR_MCP9808
+#define MCP_TEMPERATURE_OFFSET -0.1                  // Temperaturkorrektur
+
 //#define RTC_BACKUP
 #define RTC_TEMPERATURE_OFFSET -0.1
 
