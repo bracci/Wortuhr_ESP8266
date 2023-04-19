@@ -2727,7 +2727,11 @@ void loop()
         {
           if (aktMinute % 5 != 0 && forcedTransition != true)
           {
-            writeScreenBufferFade(matrixOld, matrix, settings.mySettings.color, brightness);
+            if (akt_transition == TRANSITION_FADE) {
+              writeScreenBufferFade(matrixOld, matrix, settings.mySettings.color, brightness);
+            } else {
+              writeScreenBuffer(matrix, settings.mySettings.color, brightness);
+            }
           }
           else
           {
