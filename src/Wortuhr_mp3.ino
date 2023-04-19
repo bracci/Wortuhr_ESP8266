@@ -1821,6 +1821,7 @@ void loop()
       case IR_CODE_HELLER:
         if ( settings.mySettings.brightness <= 90 ) {
           settings.mySettings.brightness = settings.mySettings.brightness + 10;
+          settings.saveToEEPROM();
           updateBrightness();
         }
 #ifdef AUDIO_SOUND
@@ -1831,6 +1832,7 @@ void loop()
       case IR_CODE_DUNKLER:
         if ( settings.mySettings.brightness >= 10 ) {
           settings.mySettings.brightness = settings.mySettings.brightness - 10;
+          settings.saveToEEPROM();
           updateBrightness();
         }
 #ifdef AUDIO_SOUND
@@ -1964,6 +1966,7 @@ void loop()
         settings.mySettings.corner_colorChange = COLORCHANGE_NO;
         settings.mySettings.color = RED;
         settings.mySettings.corner_color = settings.mySettings.color;
+        settings.saveToEEPROM();
         colorsaver = settings.mySettings.color;
         screenBufferNeedsUpdate = true;
         break;
@@ -1972,6 +1975,7 @@ void loop()
         settings.mySettings.corner_colorChange = COLORCHANGE_NO;
         settings.mySettings.color = GREEN;
         settings.mySettings.corner_color = settings.mySettings.color;
+        settings.saveToEEPROM();
         colorsaver = settings.mySettings.color;
         screenBufferNeedsUpdate = true;
         break;
@@ -1980,6 +1984,7 @@ void loop()
         settings.mySettings.corner_colorChange = COLORCHANGE_NO;
         settings.mySettings.color = BLUE;
         settings.mySettings.corner_color = settings.mySettings.color;
+        settings.saveToEEPROM();
         colorsaver = settings.mySettings.color;
         screenBufferNeedsUpdate = true;
         break;
@@ -1988,6 +1993,7 @@ void loop()
         settings.mySettings.corner_colorChange = COLORCHANGE_NO;
         settings.mySettings.color = PINK;
         settings.mySettings.corner_color = settings.mySettings.color;
+        settings.saveToEEPROM();
         colorsaver = settings.mySettings.color;
         screenBufferNeedsUpdate = true;
         break;
@@ -1996,6 +2002,7 @@ void loop()
         settings.mySettings.corner_colorChange = COLORCHANGE_NO;
         settings.mySettings.color = WHITE;
         settings.mySettings.corner_color = settings.mySettings.color;
+        settings.saveToEEPROM();
         colorsaver = settings.mySettings.color;
         screenBufferNeedsUpdate = true;
         break;
@@ -2004,6 +2011,7 @@ void loop()
         settings.mySettings.corner_colorChange = COLORCHANGE_NO;
         settings.mySettings.color = BLUE_25;
         settings.mySettings.corner_color = settings.mySettings.color;
+        settings.saveToEEPROM();
         colorsaver = settings.mySettings.color;
         screenBufferNeedsUpdate = true;
         break;
@@ -2012,6 +2020,7 @@ void loop()
         settings.mySettings.corner_colorChange = COLORCHANGE_NO;
         settings.mySettings.color = YELLOW;
         settings.mySettings.corner_color = settings.mySettings.color;
+        settings.saveToEEPROM();
         colorsaver = settings.mySettings.color;
         screenBufferNeedsUpdate = true;
         break;
@@ -2020,26 +2029,31 @@ void loop()
         settings.mySettings.corner_colorChange = COLORCHANGE_NO;
         settings.mySettings.color = ORANGE;
         settings.mySettings.corner_color = settings.mySettings.color;
+        settings.saveToEEPROM();
         colorsaver = settings.mySettings.color;
         screenBufferNeedsUpdate = true;
         break;
       case IR_CODE_NORMAL:
         settings.mySettings.transition = TRANSITION_NORMAL;
+        settings.saveToEEPROM();
         forcedTransition = true;
         screenBufferNeedsUpdate = true;
         break;
       case IR_CODE_FADE:
         settings.mySettings.transition = TRANSITION_FADE;
+        settings.saveToEEPROM();
         forcedTransition = true;
         screenBufferNeedsUpdate = true;
         break;
       case IR_CODE_MATRIX:
         settings.mySettings.transition = TRANSITION_MATRIX;
+        settings.saveToEEPROM();
         forcedTransition = true;
         screenBufferNeedsUpdate = true;
         break;
       case IR_CODE_SLIDE:
         settings.mySettings.transition = TRANSITION_MOVEDOWN;
+        settings.saveToEEPROM();
         forcedTransition = true;
         screenBufferNeedsUpdate = true;
         break;
